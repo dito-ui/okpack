@@ -1,0 +1,303 @@
+/* ==========================================================================
+   CSS SPESIFIK: LAYOUT BEST SELLER STANDING POUCH (FULL BACKGROUND BANNER)
+   ========================================================================== */
+
+/* Tema Dasar: Menggunakan warna dasar website OK PACK */
+body.best-seller-theme {
+    background-color: var(--bg-color); /* Warna pink lembut website */
+    color: #333333; /* Warna teks gelap utama agar terbaca jelas */
+}
+
+/* ==========================================================================
+   1. HERO SECTION: BACKGROUND SATU LAYAR PENH (Persis ala index.html)
+   ========================================================================== */
+.bs-hero-full {
+    height: 80vh; /* Mengambil 80% tinggi layar agar megah dan pas */
+    min-height: 550px;
+    position: relative;
+    overflow: hidden;
+    
+    /* Memasang gambar standing pouch kamu sebagai background utama */
+    background-image: url('images/background gusset 1.png');
+    background-size: cover;       /* Gambar otomatis memenuhi layar tanpa gepeng */
+    background-position: center;   /* Fokus gambar tepat di tengah */
+    background-repeat: no-repeat;
+    
+    display: flex;
+    align-items: center; /* Teks otomatis berada di tengah secara vertikal */
+}
+
+.bs-hero-full-container {
+    width: 100%;
+}
+
+/* Mengatur posisi kotak teks melayang di sebelah kiri agar tidak menutupi produk di kanan */
+.bs-hero-full-content {
+    max-width: 520px;
+    position: relative;
+    z-index: 20;
+    padding: 2.5rem;
+    background-color: rgba(255, 255, 255, 0.45); /* Efek kaca transparan putih tipis */
+    backdrop-filter: blur(10px); /* Nge-blur background di balik teks agar teks tajam dibaca */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+/* Tekstur dekoratif halus */
+.bs-overlay-pattern {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNkOWQ5ZDkiIGZpbGwtb3BhY2l0eT0iMC4xNCI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDIwaDIwdjIwSDIWMjB6TTAgMjBoMjB2MjBIMFYyMHoyMCAwaDIwdjIwSDIwVjB6Ii8+PC9nPjwvZz48L3N2Zz4=');
+    opacity: 0.3;
+    z-index: 5;
+    pointer-events: none;
+}
+
+/* Elemen Teks di Dalam Hero */
+.bs-badge {
+    display: inline-block;
+    padding: 0.5rem 1.2rem;
+    background-color: var(--primary); /* Merah semi pink OK PACK */
+    color: #ffffff;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+}
+
+.bs-hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: #1e1b1c; /* Warna gelap elegan OK PACK */
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.bs-hero-subtitle {
+    color: #222222; /* Gelap proporsional agar kontras dengan background pink/putih */
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+
+/* ==========================================================================
+   2. DETAIL SECTION: GRID INFO & FORM CTA (3 KOLOM)
+   ========================================================================== */
+.bs-details {
+    padding: 6rem 0;
+    background-color: #ffffff; /* Latar putih cerah agar tabel bersih dan kontras */
+}
+
+.bs-details-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr 1fr;
+    gap: 3rem;
+    align-items: flex-start;
+}
+
+/* Kolom 1: Galeri Mini */
+.bs-details-gallery {
+    display: flex;
+    justify-content: center;
+}
+
+.bs-gallery-large {
+    background-color: #ffffff;
+    border-radius: 20px;
+    padding: 2rem;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.bs-gallery-img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+    object-fit: contain;
+}
+
+/* Kolom 2: Info & Tabel Spesifikasi */
+.bs-details-info {
+    color: #1e1b1c;
+}
+
+.bs-details-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+}
+
+.bs-details-desc {
+    color: #444444; /* Abu-abu gelap nyaman dibaca */
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.specs-box h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.specs-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.specs-table td {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1); /* Garis pembatas tipis gelap */
+    color: #333333;
+    font-size: 0.95rem;
+}
+
+.specs-table td:first-child {
+    width: 40%;
+    color: #666666; /* Judul spesifikasi warna abu medium */
+}
+
+/* Kolom 3: CTA Form Melayang */
+.bs-cta-form {
+    background-color: var(--bg-color); /* Berwarna aksen pink estetik */
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.bs-cta-form h3 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.bs-cta-form p {
+    color: #444444;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.btn-cta {
+    width: 100%;
+    text-align: center;
+    padding: 1rem;
+}
+
+.cta-note {
+    font-size: 0.8rem;
+    color: #888888;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+
+/* ==========================================================================
+   3. FEATURES SECTION: BARISAN ICON KEUNGGULAN
+   ========================================================================== */
+.bs-features {
+    padding: 4rem 0 6rem 0;
+    background-color: #ffffff;
+}
+
+.bs-features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+.bs-feat-card {
+    text-align: center;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background-color: var(--bg-color); /* Card sewarna dengan background web */
+    border: 1px solid rgba(0,0,0,0.02);
+}
+
+.bs-feat-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+}
+
+.bs-feat-card h4 {
+    font-size: 1.1rem;
+    color: #1e1b1c;
+    margin-bottom: 0.5rem;
+}
+
+.bs-feat-card p {
+    font-size: 0.9rem;
+    color: #555555;
+    line-height: 1.5;
+}
+
+
+/* ==========================================================================
+   4. RESPONSIF MEDIA QUERIES (HP & TABLET)
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+    .bs-hero-full {
+        height: auto;
+        padding: 10rem 0 5rem 0;
+        background-position: 75% center; /* Geser background ke kanan di tablet agar produk kelihatan */
+    }
+    .bs-hero-full-content {
+        margin: 0 auto;
+        text-align: center;
+    }
+    .bs-details-grid {
+        grid-template-columns: 1fr; /* Menjadi satu kolom memanjang ke bawah */
+        gap: 2.5rem;
+    }
+    .bs-gallery-large {
+        max-width: 150px;
+        margin: 0 auto;
+    }
+    .bs-cta-form {
+        text-align: center;
+    }
+    .bs-features-grid {
+        grid-template-columns: 1fr 1fr; /* Grid icon jadi 2 kolom di tablet */
+        gap: 1.5rem;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .bs-hero-full {
+        background-position: 80% center; /* Geser background lebih ke kanan lagi di layar HP kecil */
+    }
+    .bs-hero-title {
+        font-size: 2.4rem;
+    }
+    .bs-details-title {
+        font-size: 1.8rem;
+    }
+    .bs-features-grid {
+        grid-template-columns: 1fr; /* Grid icon jadi satu baris lurus di HP */
+        gap: 1.2rem;
+    }
+}
+/* ==========================================================================
+   CSS TAMBAHAN: ANIMASI SCROLL (FADE IN UP)
+   ========================================================================== */
+
+/* 1. Kondisi Awal: Elemen disembunyikan, agak turun ke bawah, dan transparan */
+.scroll-reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), 
+                transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* 2. Kondisi Akhir: Elemen muncul sempurna saat di-scroll */
+.scroll-reveal.appeared {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Opsional: Efek delay/antrean biar elemen kiri-kanan muncul bergantian */
+.delay-1 { transition-delay: 0.15s; }
+.delay-2 { transition-delay: 0.3s; }
+.delay-3 { transition-delay: 0.45s; }
