@@ -30,3 +30,29 @@ const observer = new IntersectionObserver((entries) => {
 });
 
 hiddenElements.forEach((el) => observer.observe(el));
+
+
+// ==========================================================================
+// 3. Logika FAQ Accordion (Buka-Tutup Pertanyaan)
+// ==========================================================================
+const faqQuestions = document.querySelectorAll('.faq-question');
+
+faqQuestions.forEach((question) => {
+    question.addEventListener('click', function() {
+        // Ambil elemen pembungkus utamanya (.faq-item)
+        const faqItem = this.parentElement;
+        
+        // Cek jika item yang diklik sudah aktif sebelumnya
+        const isActive = faqItem.classList.contains('active');
+        
+        // BONUS: Tutup semua FAQ lain yang sedang terbuka (efek eksklusif)
+        document.querySelectorAll('.faq-item').forEach((item) => {
+            item.classList.remove('active');
+        });
+        
+        // Jika sebelumnya tidak aktif, sekarang buka item tersebut
+        if (!isActive) {
+            faqItem.classList.add('active');
+        }
+    });
+});
