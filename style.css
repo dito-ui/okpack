@@ -455,3 +455,94 @@ body {
         display: none; 
     }
 }
+/* ==========================================================================
+   10. Animasi Interaktif Muncul Saat Di-scroll (JavaScript-Driven)
+   ========================================================================== */
+
+/* Kondisi awal sebelum elemen terlihat (Disembunyikan & digeser ke bawah sedikit) */
+.hidden-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* Kondisi setelah elemen terintip oleh JavaScript (Muncul halus ke posisi asli) */
+.show-scroll {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* ==========================================================================
+   11. Section FAQ Accordion (Interaktif)
+   ========================================================================== */
+.faq-section {
+    padding: 6rem 0;
+    background-color: rgba(255, 255, 255, 0.02); /* Mengikuti tone background transparan services */
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 40px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background-color: var(--card-bg); /* Menggunakan variabel hitam elegan kamu */
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.faq-item:hover {
+    border-color: var(--primary); /* Highlight warna merah semi pink kamu saat di-hover */
+}
+
+.faq-question {
+    width: 100%;
+    padding: 20px;
+    background: none;
+    border: none;
+    color: #ffffff; /* Putih terang agar kontras dengan card hitam */
+    font-family: var(--font-main);
+    font-size: 1.05rem;
+    font-weight: 600;
+    text-align: left;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.faq-icon {
+    font-size: 20px;
+    color: var(--primary); /* Menggunakan warna primer kamu */
+    transition: transform 0.3s ease;
+}
+
+.faq-answer {
+    max-height: 0; /* Kondisi awal tertutup rapat */
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    background-color: rgba(0, 0, 0, 0.15); /* Lebih gelap sedikit untuk area jawaban */
+}
+
+.faq-answer p {
+    padding: 0 20px 20px 20px;
+    color: #e0e0e0; /* Warna teks isi box seperti card services */
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+/* Class aktif saat tombol diklik (Diatur lewat JavaScript) */
+.faq-item.active .faq-answer {
+    max-height: 200px; /* Membuka panel jawaban secara otomatis */
+}
+
+.faq-item.active .faq-icon {
+    transform: rotate(45deg); /* Mengubah ikon + menjadi bentuk silang (x) */
+    color: #ffffff;
+}
