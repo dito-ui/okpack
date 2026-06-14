@@ -6,27 +6,36 @@ let currentSlide = 0;
 const slideInterval = 4000; 
 
 function nextSlide() {
-    slides[currentSlide].classList.remove('active');
-    currentSlide = (currentSlide + 1) % slides.length;
-    slides[currentSlide].classList.add('active');
+    if (slides.length > 0) {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % slides.length;
+        slides[currentSlide].classList.add('active');
+    }
 }
 
-setInterval(nextSlide, slideInterval);
+if (slides.length > 0) {
+    setInterval(nextSlide, slideInterval);
+}
 
 
 // ==========================================================================
-// 2. Logika Animasi Muncul Saat Di-scroll
+// 2. UPDATED LOGIKA: ANIMASI SCROLL BOLAK-BALIK (MUNCUL & HILANG)
 // ==========================================================================
 const hiddenElements = document.querySelectorAll('.hidden-scroll');
 
 const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
         if (entry.isIntersecting) {
+            // Saat di-scroll ke bawah dan masuk layar -> Munculkan
             entry.target.classList.add('show-scroll');
+        } else {
+            // JAWABAN: Saat di-scroll ke atas dan keluar layar -> Hilangkan kembali
+            entry.target.classList.remove('show-scroll');
         }
     });
 }, {
-    threshold: 0.15 
+    threshold: 0.1, // Memicu transisi lebih cepat & sensitif saat 10% elemen terlihat
+    rootMargin: "0px 0px -40px 0px" // Jeda halus agar animasi terasa natural sebelum mentok layar
 });
 
 hiddenElements.forEach((el) => observer.observe(el));
@@ -39,13 +48,10 @@ const faqQuestions = document.querySelectorAll('.faq-question');
 
 faqQuestions.forEach((question) => {
     question.addEventListener('click', function() {
-        // Ambil elemen pembungkus utamanya (.faq-item)
         const faqItem = this.parentElement;
-        
-        // Cek jika item yang diklik sudah aktif sebelumnya
         const isActive = faqItem.classList.contains('active');
         
-        // BONUS: Tutup semua FAQ lain yang sedang terbuka (efek eksklusif)
+        // Tutup semua FAQ lain yang sedang terbuka
         document.querySelectorAll('.faq-item').forEach((item) => {
             item.classList.remove('active');
         });
@@ -56,6 +62,8 @@ faqQuestions.forEach((question) => {
         }
     });
 });
+
+
 // ==========================================================================
 // 4. Logika Interaktif Validasi Form + Efek Loading (AJAX Formspree)
 // ==========================================================================
@@ -64,51 +72,64 @@ const submitBtn = document.getElementById('submit-btn');
 const formStatus = document.getElementById('form-status');
 
 if (contactForm) {
-    contactForm.addEventListener('submit', async function(event) {
-        // 1. Cegah form dari reload halaman bawaan browser
-        event.preventDefault();
+    contactForm.addEventListener('submit', function(e) {
+        e.preventDefault(); // Mencegah reload halaman standar
         
-        // 2. Aktifkan efek loading spinner pada tombol
+        // Aktifkan animasi loading spinner pada tombol
         submitBtn.classList.add('is-loading');
-        submitBtn.innerText = "Sedang Mengirim...";
+        submitBtn.disabled = true;
         
-        // 3. Sembunyikan notifikasi lama jika ada
-        formStatus.className = "form-status-message";
-        formStatus.style.display = "none";
-
-        // 4. Ambil semua data inputan dari form kamu
-        const formData = new FormData(this);
-
-        try {
-            // 5. Kirim data ke Formspree secara sinkron di latar belakang
-            const response = await fetch(this.action, {
-                method: this.method,
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            // 6. Matikan efek loading spinner setelah respon diterima
-            submitBtn.classList.remove('is-loading');
-            submitBtn.innerText = "Kirim Pesan";
-
-            if (response.ok) {
-                // Jika sukses terkirim ke Formspree
-                formStatus.textContent = "Pesan berhasil dikirim! Tim OK PACK akan segera menghubungi Anda.";
-                formStatus.classList.add('success');
-                contactForm.reset(); // Bersihkan isi kolom input form otomatis
-            } else {
-                // Jika server merespon tapi ada error data
-                formStatus.textContent = "Oops! Terjadi masalah saat mengirim pesan. Coba lagi nanti.";
-                formStatus.classList.add('error');
+        const data = new FormData(contactForm);
+        
+        fetch(contactForm.action, {
+            method: contactForm.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
             }
-        } catch (error) {
-            // Jika terjadi gangguan koneksi internet
+        }).then(response => {
+            // Matikan status loading
             submitBtn.classList.remove('is-loading');
-            submitBtn.innerText = "Kirim Pesan";
-            formStatus.textContent = "Gagal mengirim. Silakan periksa koneksi internet Anda.";
-            formStatus.classList.add('error');
-        }
+            submitBtn.disabled = false;
+            
+            if (response.ok) {
+                // Jika pengiriman sukses
+                formStatus.className = "form-status-message success";
+                formStatus.innerText = "Terima kasih! Pesan Anda berhasil dikirim. Tim kami akan segera menghubungi Anda.";
+                contactForm.reset(); // Kosongkan isi form kembali
+            } else {
+                // Jika server merespon tapi ada error
+                response.json().then(data => {
+                    if (Object.hasOwn(data, 'errors')) {
+                        formStatus.innerText = data["errors"].map(error => error.message).join(", ");
+                    } else {
+                        formStatus.innerText = "Oops! Terjadi kesalahan saat mengirim pesan.";
+                    }
+                });
+                formStatus.className = "form-status-message error";
+            }
+        }).catch(error => {
+            // Jika koneksi internet bermasalah
+            submitBtn.classList.remove('is-loading');
+            submitBtn.disabled = false;
+            formStatus.className = "form-status-message error";
+            formStatus.innerText = "Oops! Terjadi masalah koneksi. Silakan coba beberapa saat lagi.";
+        });
     });
 }
+// Mengunci scroll saat halaman baru dimuat
+document.body.classList.add('preloader-active');
+
+window.addEventListener('load', function() {
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        // Berikan efek memudar (fade out)
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.visibility = 'hidden';
+        
+        // Buka kembali fungsi scroll setelah loading hilang
+        setTimeout(() => {
+            document.body.classList.remove('preloader-active');
+        }, 500);
+    }
+});
