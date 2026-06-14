@@ -79,6 +79,60 @@ body {
     color: var(--text-muted);
     font-size: 1.1rem;
 }
+/* ==========================================================================
+   ANIMATION LOADING SCREEN (PRELOADER)
+   ========================================================================== */
+#loading-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff0f2; /* Mengikuti warna background utama pink lembutmu */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999; /* Memastikan berada di lapisan paling atas melebihi apapun */
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-container {
+    text-align: center;
+}
+
+/* Animasi Spinner Berputar */
+.loader-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(217, 43, 86, 0.1);
+    border-top: 4px solid #d92b56; /* Warna merah andalanmu */
+    border-radius: 50%;
+    margin: 0 auto 15px auto;
+    animation: spinLoader 1s linear infinite;
+}
+
+/* Teks Loading Logo */
+.loader-text {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111111;
+    letter-spacing: 1px;
+}
+
+.loader-text span {
+    color: #d92b56;
+}
+
+/* Mengunci scroll body saat loading aktif */
+body.preloader-active {
+    overflow: hidden;
+}
+
+@keyframes spinLoader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
 
 /* ==========================================================================
    2. Components (Buttons)
@@ -600,4 +654,117 @@ body {
     background-color: rgba(217, 43, 86, 0.15);
     border: 1px solid var(--primary);
     color: var(--primary);
+}
+/* ==========================================================================
+   13. Catalog Section (Grid Layout Tipe Kemasan OKE PACK)
+   ========================================================================== */
+.catalog-section {
+    padding: 6rem 0 3rem 0;
+    background-color: var(--bg-color); /* Memakai latar pink lembut bawaanmu */
+}
+
+.catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Membagi jadi 2 kolom sejajar */
+    gap: 2.5rem;
+}
+
+.catalog-card {
+    background-color: #ffffff; /* Putih bersih agar mockup produkmu kontras & stand out */
+    border-radius: 16px;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    transition: var(--transition-smooth);
+}
+
+.catalog-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(217, 43, 86, 0.12); /* Shadow pink estetik saat di-hover */
+}
+
+.catalog-img-box {
+    flex: 1;
+    max-width: 140px; /* Batas lebar wadah gambar */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.catalog-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    transition: transform 0.4s ease; /* Efek transisi halus untuk gambar */
+}
+
+/* INTERAKSI INTERAKTIF: Gambar kemasan nge-zoom sedikit saat kartu didekati kursor */
+.catalog-card:hover .catalog-img {
+    transform: scale(1.08);
+}
+
+.catalog-info {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+}
+
+.catalog-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e1b1c; /* Warna teks gelap elegan */
+}
+
+.catalog-info p {
+    color: #555555;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+/* Tombol Interaksi "Selengkapnya" */
+.btn-catalog {
+    align-self: flex-start;
+    padding: 0.6rem 1.5rem;
+    background-color: var(--primary); /* Merah semi pink andalanmu */
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 600;
+    border-radius: 50px; /* Bentuk kapsul melingkar */
+    transition: var(--transition-smooth);
+}
+
+.btn-catalog:hover {
+    background-color: #1e1b1c; /* Berubah hitam elegan saat di-hover */
+    transform: translateX(4px); /* Efek bergeser sedikit ke kanan */
+}
+
+/* ==========================================================================
+   14. Penyesuaian Responsif Layangan HP untuk Katalog
+   ========================================================================== */
+@media screen and (max-width: 768px) {
+    .catalog-grid {
+        grid-template-columns: 1fr; /* Di HP berubah otomatis jadi 1 kolom berderet ke bawah */
+        gap: 1.5rem;
+    }
+    
+    .catalog-card {
+        flex-direction: column; /* Gambar pindah ke atas teks kalau di HP */
+        text-align: center;
+        padding: 1.5rem;
+        gap: 1.2rem;
+    }
+    
+    .catalog-img-box {
+        max-width: 120px;
+    }
+    
+    .btn-catalog {
+        align-self: center; /* Tombol pindah ke tengah di layar HP */
+    }
 }
