@@ -56,3 +56,59 @@ faqQuestions.forEach((question) => {
         }
     });
 });
+// ==========================================================================
+// 4. Logika Interaktif Validasi Form + Efek Loading (AJAX Formspree)
+// ==========================================================================
+const contactForm = document.querySelector('.contact-form');
+const submitBtn = document.getElementById('submit-btn');
+const formStatus = document.getElementById('form-status');
+
+if (contactForm) {
+    contactForm.addEventListener('submit', async function(event) {
+        // 1. Cegah form dari reload halaman bawaan browser
+        event.preventDefault();
+        
+        // 2. Aktifkan efek loading spinner pada tombol
+        submitBtn.classList.add('is-loading');
+        submitBtn.innerText = "Sedang Mengirim...";
+        
+        // 3. Sembunyikan notifikasi lama jika ada
+        formStatus.className = "form-status-message";
+        formStatus.style.display = "none";
+
+        // 4. Ambil semua data inputan dari form kamu
+        const formData = new FormData(this);
+
+        try {
+            // 5. Kirim data ke Formspree secara sinkron di latar belakang
+            const response = await fetch(this.action, {
+                method: this.method,
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+
+            // 6. Matikan efek loading spinner setelah respon diterima
+            submitBtn.classList.remove('is-loading');
+            submitBtn.innerText = "Kirim Pesan";
+
+            if (response.ok) {
+                // Jika sukses terkirim ke Formspree
+                formStatus.textContent = "Pesan berhasil dikirim! Tim OK PACK akan segera menghubungi Anda.";
+                formStatus.classList.add('success');
+                contactForm.reset(); // Bersihkan isi kolom input form otomatis
+            } else {
+                // Jika server merespon tapi ada error data
+                formStatus.textContent = "Oops! Terjadi masalah saat mengirim pesan. Coba lagi nanti.";
+                formStatus.classList.add('error');
+            }
+        } catch (error) {
+            // Jika terjadi gangguan koneksi internet
+            submitBtn.classList.remove('is-loading');
+            submitBtn.innerText = "Kirim Pesan";
+            formStatus.textContent = "Gagal mengirim. Silakan periksa koneksi internet Anda.";
+            formStatus.classList.add('error');
+        }
+    });
+}
