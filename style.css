@@ -1,0 +1,457 @@
+/* ==========================================================================
+   1. CSS Reset & Global Layout Rules
+   ========================================================================== */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    /* ==========================================================================
+       WARNA BARU: Background Pink-Red Lembut & Teks Kolom Kontras
+       ========================================================================== */
+    
+    /* Background utama diubah menjadi Pink Semi-Merah yang Lembut (Soft) */
+    --bg-color: #fff0f2;       
+    
+    /* Kotak (Card & Form) tetap Hitam/Gelap Elegan */
+    --card-bg: #1e1b1c;        
+    
+    /* Tulisan utama di luar kotak (seperti judul "Layanan Kami") menjadi Hitam Pekat */
+    --text-main: #111111;      
+    
+    /* Teks deskripsi di luar kotak */
+    --text-muted: #555555;     
+    
+    /* Warna aksen utama: Merah semi Pink untuk Tombol atau Highlight */
+    --primary: #d92b56;        
+    
+    /* Warna aksen kedua */
+    --secondary: #fbcbc9;      
+    
+    --btn-hover: #f3f4f6;
+    
+    /* Typography & Transitions */
+    --font-main: 'Poppins', sans-serif;
+    --transition-smooth: all 0.3s ease;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: var(--font-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Reusable Container Utilities */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.text-gradient {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 3.5rem;
+}
+
+.section-header h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.section-header p {
+    color: var(--text-muted);
+    font-size: 1.1rem;
+}
+
+/* ==========================================================================
+   2. Components (Buttons)
+   ========================================================================== */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    border: none;
+}
+
+.btn-primary {
+    background-color: var(--primary);
+    color: #ffffff; /* DIUBAH KE PUTIH: Supaya tulisan tombol terbaca jelas di atas warna merah */
+    box-shadow: 0 4px 14px rgba(217, 43, 86, 0.3);
+}
+
+.btn-primary:hover {
+    background-color: #b81d43; /* Warna merah agak gelap sedikit saat kursor menempel */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(217, 43, 86, 0.5);
+}
+
+.btn-submit {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #ffffff; /* DIUBAH KE PUTIH: Biar serasi dengan skema warna form */
+    width: 100%;
+}
+
+.btn-submit:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   3. Navigation Header
+   ========================================================================== */
+.main-header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 1000;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.2rem 0;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text-main);
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+}
+
+.nav-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   4. Hero Section dengan Background Slider Otomatis
+   ========================================================================== */
+.hero-section {
+    position: relative; /* Wajib ada agar slider background rapi di dalam section */
+    padding: 8rem 0 6rem 0; 
+    min-height: 100vh; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Wadah utama untuk menampung semua gambar slider */
+.hero-bg-slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1; /* Menempatkan gambar di lapisan bawah */
+}
+
+/* Mengatur sifat setiap slide gambar */
+.hero-bg-slider .slide {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0; /* Gambar bawaan disembunyikan dulu */
+    transition: opacity 1s ease-in-out; /* Efek memudar halus selama 1 detik saat berganti */
+}
+
+/* Memunculkan gambar yang sedang aktif */
+.hero-bg-slider .slide.active {
+    opacity: 1;
+}
+
+/* Memastikan teks konten berada di atas lapisan gambar */
+.hero-content {
+    position: relative;
+    z-index: 2; /* Menghindari teks tertutup gambar */
+    max-width: 800px; 
+    text-align: center; 
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: var(--text-main);
+    text-shadow: 0 2px 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.hero-subtitle {
+    font-size: 1.25rem;
+    color: var(--text-main); 
+    margin-bottom: 2.5rem;
+    font-weight: 600; 
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* ==========================================================================
+   5. Services Section (Grid Layout)
+   ========================================================================== */
+.services-section {
+    padding: 6rem 0;
+    background-color: rgba(255, 255, 255, 0.02);
+}
+
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.service-card {
+    background-color: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: var(--transition-smooth);
+}
+
+.service-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary);
+    box-shadow: 0 10px 30px rgba(217, 43, 86, 0.15);
+}
+
+.service-icon {
+    font-size: 2rem;
+    color: var(--secondary);
+    margin-bottom: 1.2rem;
+    display: inline-block;
+}
+
+.service-card h3 {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+    color: #ffffff; 
+}
+
+.service-card p {
+    color: #e0e0e0; 
+    font-size: 0.95rem;
+}
+
+/* ==========================================================================
+   6. Contact Section
+   ========================================================================== */
+.contact-section {
+    padding: 6rem 0;
+}
+
+.form-container {
+    max-width: 600px;
+}
+
+.contact-form {
+    background-color: var(--card-bg);
+    padding: 2.5rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.85rem 1rem;
+    background-color: #2d2a2b; 
+    border: 1px solid rgba(217, 43, 86, 0.2);
+    border-radius: 6px;
+    color: #ffffff; 
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    transition: var(--transition-smooth);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(217, 43, 86, 0.2);
+}
+
+/* ==========================================================================
+   7. Footer
+   ========================================================================== */
+.main-footer {
+    padding: 2rem 0;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    background-color: var(--bg-color);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.social-links {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.social-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: var(--transition-smooth);
+}
+
+.social-links a:hover {
+    color: var(--primary);
+}
+
+/* ==========================================================================
+   8. Media Queries (Mobile Responsiveness)
+   ========================================================================== */
+@media screen and (max-width: 992px) {
+    .services-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .hero-section {
+        background-position: center bottom; /* Di HP gambar turun ke bawah teks */
+        background-size: 70%;
+        padding-bottom: 25rem; 
+    }
+
+    .hero-content {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .services-grid {
+        grid-template-columns: 1fr; 
+    }
+    
+    .nav-container,
+    .footer-container {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .contact-form {
+        padding: 1.5rem;
+    }
+}
+
+/* ==========================================================================
+   9. Tombol WhatsApp Melayang dengan Gradasi Kapsul (Pojok Kanan Bawah)
+   ========================================================================== */
+.wa-floating {
+    position: fixed;
+    bottom: 24px;
+    right: 24px; /* JAWABAN: Diubah ke right agar pindah ke pojok kanan bawah */
+    background: linear-gradient(135deg, #4ade80, #22c55e); 
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 28px; 
+    border-radius: 50px; 
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: var(--font-main);
+    font-weight: 600;
+    font-size: 1rem;
+    letter-spacing: 0.5px;
+    box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3); 
+    z-index: 9999;
+    transition: var(--transition-smooth);
+}
+
+.wa-floating:hover {
+    transform: translateY(-4px); 
+    box-shadow: 0 12px 24px rgba(34, 197, 94, 0.45);
+    filter: brightness(1.05); 
+}
+
+.wa-icon {
+    width: 24px;
+    height: 24px;
+}
+
+@media screen and (max-width: 480px) {
+    .wa-floating {
+        padding: 14px; 
+    }
+    .wa-floating span {
+        display: none; 
+    }
+}
